@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 20 20:56:57 2020
+
+@author: Mehdi
+"""
+
+import numpy as np
+from matplotlib import pyplot as plt
+cristaux = np.array(np.random.normal (1, 0.1, size = 1)) # Cristal initial
+#rcroissance = np.array (np.random.normal(20, 0.1, size = 5))
+nucleation = np.array(np.random.normal(5, 0.5, size = 2))
+croissance = np.random.uniform(1, 10)
+
+
+etape = 0
+for etape in range (0,100):
+    if etape < 100:
+        loi_nucleation = int(np.random.randint(10, 20) * (etape+1)) # La nucleation augmente avec le temps
+        nucleation = np.array(np.random.normal(np.random.uniform(1, 5), 2, size = loi_nucleation)) 
+        croissance = np.random.uniform(10, 20) / (etape+1) # La croissance cristalline diminue avec le temps
+        cristaux = cristaux + croissance
+        cristaux = np.append(cristaux, nucleation)
+        intro = "Etape n°" + str(etape)
+        croissance_moyenne = ['Croissance moyenne : ' + str(np.mean(croissance))]
+        taille_moyenne = ['Taille moyenne ' + str(np.mean(cristaux))]
+        csd = [intro, croissance_moyenne, taille_moyenne, cristaux]
+        etape = etape + 1
+        print(csd)
+        total_cristaux = (len(cristaux))
+        plt.hist(cristaux, bins = 30,  width = 3,log = True, color = 'red', edgecolor = 'black') # Création d'un histogramme à 10 classes
+        plt.ylabel('Effectif', size = 12)
+        plt.xlabel('Taille de grain', size = 12)
+        plt.title ('Etape ' + str(etape) + ' : ' + str(total_cristaux) + ' cristaux' + ' (+ ' + str(loi_nucleation) + ' cristaux' + ')', color = 'black', size =15)
+        plt.show(csd) # Affichage de l'histogramme
+    else: 
+        nucleation = np.array(np.random.normal(2, 0.5, size = 10))
+        croissance = np.random.uniform(1, 2)
+        cristaux = cristaux + croissance
+        cristaux = np.append(cristaux, nucleation)
+        Intro = "Etape n°" + str(etape)
+        csd = [Intro, cristaux]
+        etape = etape + 1
+        print(csd)
+        plt.hist(cristaux,  width = 20, color='blue') # Création d'un histogramme à 10 classes
+        plt.ylabel('Effectif cumulé', size = 12)
+        plt.xlabel('Taille de grains', size = 12)
+        plt.show(csd) # Affichage de l'histogramme
